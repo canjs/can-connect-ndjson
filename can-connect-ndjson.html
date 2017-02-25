@@ -3,9 +3,25 @@
 <head>
 	<script type="text/stache" id="app-template">
 		<ul>
-			{{#each todosPromise.value}}
-				<li>{{name}}</li>
-			{{/each}}
+			{{#if todosPromise.isPending}}
+				<li style="color:#ccc">Connecting ...</li>
+			{{/if}}
+			{{#if todosPromise.isRejected}}
+				<li style="color:red">Cannot connect: {{todosPromise.reason}}</li>
+			{{/if}}
+
+			{{#if todosPromise.isResolved}}
+				{{#each todosPromise.value}}
+					<li>{{name}}</li>
+				{{/each}}
+
+				{{#if todosPromise.value.isStreaming}}
+					<li style="color:#ccc">Still loading...</li>
+				{{/if}}
+				{{#if todosPromise.value.streamError}}
+					<li style="color:red">NDJSON Stream Error: {{todosPromise.value.streamError.message}}</li>
+				{{/if}}
+			{{/if}}
 		</ul>
 	</script>
 	<script src="./node_modules/steal/steal.js" main="@empty">

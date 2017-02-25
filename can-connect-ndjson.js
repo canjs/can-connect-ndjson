@@ -29,20 +29,24 @@ module.exports = connect.behavior("data-ndjson", function(baseConnection) {
     getListData: function(set) {
       var fetchPromise = fetch(this.ndjson);
       this._getHydrateList(set, function(list) {
+        function streamerr(e) {
+          list.set("isStreaming", false);
+          list.set("streamError",e);
+        }
+
         fetchPromise.then(function(response) {
-          console.log("start");
+          list.set("isStreaming", true);
           return ndJSONStream(response.body);
         }).then(function(itemStream) {
           var reader = itemStream.getReader();
           reader.read().then(function read(result) {
             if (result.done) {
-              console.log("Done.");
+              list.set("isStreaming", false);
               return;
             }
-            console.log(result.value);
             list.push(result.value);
-            reader.read().then(read);
-          });
+            reader.read().then(read, streamerr);
+          }, streamerr);
         });
       });
 
