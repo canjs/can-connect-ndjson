@@ -66,5 +66,11 @@
     "steal-qunit": "^1.0.0",
     "steal-tools": "^1.0.1",
     "testee": "^0.3.0"
-  }
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://opensource.org/licenses/mit-license.php"
+    }
+  ]
 }
