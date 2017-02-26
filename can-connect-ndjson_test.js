@@ -64,7 +64,8 @@ QUnit.asyncTest('Reading a multiline NDJSON', function(assert) {
   });
   Todo.getList({}).then(function (oblist) {
     assert.ok(oblist, "Observable list created.");
-    var idata = ['{"a":1,"b":2}\n','{"c":3,"d":4}\n','{"e":[5]}'];
+    assert.ok(oblist.isStreaming, "Status is streaming");
+    var idata = ['{"a":1,"b":2}\n','{"c":3,"d":4}\n\n{"e','":[5]}'];
     var answers = [{a:1,b:2},{c:3,d:4},{e:[5]}];
     var timeout = 0;
     var onAdd = function(event, added) {
@@ -73,6 +74,7 @@ QUnit.asyncTest('Reading a multiline NDJSON', function(assert) {
       assert.deepEqual(added[0].get(), answers.shift(), "Gave correct answer");
       var next = idata.shift();
       if (next) {
+        assert.ok(oblist.isStreaming, "Status is streaming");
         fetch_push(next);
         if (idata.length == 0){
           fetch_close();
@@ -81,7 +83,11 @@ QUnit.asyncTest('Reading a multiline NDJSON', function(assert) {
           assert.notOk(true, "Processing exceeds 1s");
         }, 1000);
       } else {
+        assert.notOk(oblist.streamError, "No error should occur");
         assert.ok(true, "Reached end of testing");
+        setTimeout(function() {
+          assert.notOk(oblist.isStreaming, "Status is not streaming");
+        }, 500);
         QUnit.start();
       }
     };
