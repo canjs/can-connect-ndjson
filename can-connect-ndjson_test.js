@@ -1,9 +1,100 @@
-import QUnit from 'steal-qunit';
-import plugin from './can-connect-ndjson';
+var QUnit = require('steal-qunit');
+var plugin = require ('./can-connect-ndjson');
+
+var ReadableStream = window.ReadableStream;
+var connect = require("can-connect");
+var DefineList = require("can-define/list/list");
+var DefineMap = require("can-define/map/map");
+
+var originalFetch = window.fetch;
+
+// Start test!
 
 QUnit.module('can-connect-ndjson');
 
-QUnit.test('Initialized the plugin', function(){
-  QUnit.equal(typeof plugin, 'function');
-  QUnit.equal(plugin(), 'This is the can-connect-ndjson plugin');
+QUnit.test('Initialized the plugin', function(assert){
+  assert.equal(typeof plugin, 'function');
 });
+
+QUnit.test('Replace fetch with custom version', function(assert) {
+  window.fetch = function(url) {
+    if (url == "test") {
+      return "success";
+    }
+    return Promise.resolve().then(function() {
+      return {body:new ReadableStream({
+        start: function(controller) {
+          window.fetch_push = function(data) {
+            var encoder = new TextEncoder();
+            controller.enqueue(encoder.encode(data));
+          };
+          window.fetch_halt = function(reason) {
+            controller.error(reason);
+          };
+          window.fetch_close = function() {
+            controller.close();
+          };
+        }
+      })};
+    });
+  };
+  assert.ok(fetch("test")=='success', "Fetch replaced.");
+});
+
+QUnit.asyncTest('Reading a multiline NDJSON', function(assert) {
+  var Todo = DefineMap.extend("Todo",{
+    id: "number",
+    name: "string"
+  });
+  Todo.List = DefineList.extend({
+    "#": Todo
+  });
+
+  Todo.connection = connect([
+    require("can-connect/data/url/url"),
+    require("can-connect/constructor/constructor"),
+    require("can-connect/constructor/store/store"),
+    require("can-connect/can/map/map"),
+    require("can-connect-ndjson")
+  ],{
+    Map: Todo,
+    List: Todo.List,
+    url: "foo/bar",
+    ndjson: "foo/bar"
+  });
+  Todo.getList({}).then(function (oblist) {
+    assert.ok(oblist, "Observable list created.");
+    var idata = ['{"a":1,"b":2}\n','{"c":3,"d":4}\n','{"e":[5]}'];
+    var answers = [{a:1,b:2},{c:3,d:4},{e:[5]}];
+    var timeout = 0;
+    var onAdd = function(event, added) {
+      clearTimeout(timeout);
+      assert.equal(added.length, 1, "Added exactly 1 object");
+      assert.deepEqual(added[0].get(), answers.shift(), "Gave correct answer");
+      var next = idata.shift();
+      if (next) {
+        fetch_push(next);
+        if (idata.length == 0){
+          fetch_close();
+        }
+        timeout = setTimeout(function() {
+          assert.notOk(true, "Processing exceeds 1s");
+        }, 1000);
+      } else {
+        assert.ok(true, "Reached end of testing");
+        QUnit.start();
+      }
+    };
+    var onRemove = function() {
+      assert.notOk(true, "Items are being removed!");
+    };
+    oblist.on("add", onAdd);
+    oblist.on("remove", onRemove);
+    fetch_push(idata.shift());
+    timeout = setTimeout(function() {
+      assert.notOk(true, "Processing exceeds 1s");
+    }, 1000);
+  });
+});
+
+window.fetch = originalFetch;
