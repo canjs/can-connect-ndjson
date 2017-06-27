@@ -12,7 +12,7 @@
 
 			{{#if todosPromise.isResolved}}
 				{{#each todosPromise.value}}
-					<li>{{name}}</li>
+					<li>{{this.user}}</li>
 				{{/each}}
 
 				{{#if todosPromise.value.isStreaming}}
@@ -43,16 +43,16 @@
 	Todo.connection = connect([
 	  require("can-connect/data/url/url"),
 	  require("can-connect/constructor/constructor"),
-	  require("can-connect/constructor/store/store"),
+	  // require("can-connect/constructor/store/store"), //not required
 	  require("can-connect/can/map/map"),
 	  require("can-connect-ndjson")
 	],{
 	  Map: Todo,
 	  List: Todo.List,
-	  url: "/api/todos",
-	  // ndjson: "/api/todos.ndjson"
-	  ndjson: "http://localhost/ndjson.php"
+	  url: "/api",
+	  ndjson: "/api"
 	});
+	
 	var stache = require("can-stache");
 	var template = stache.from("app-template");
 	var frag = template({ todosPromise: Todo.getList({}) });
