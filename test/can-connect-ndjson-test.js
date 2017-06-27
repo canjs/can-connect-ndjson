@@ -1,5 +1,5 @@
 var QUnit = require('steal-qunit');
-var plugin = require ('./can-connect-ndjson');
+var plugin = require ('../can-connect-ndjson');
 
 var ReadableStream = window.ReadableStream;
 var connect = require("can-connect");
