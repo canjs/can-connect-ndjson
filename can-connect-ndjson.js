@@ -9,9 +9,9 @@ module.exports = connect.behavior("data-ndjson", function(baseConnection) {
       var id = sortedSetJSON( set );
       var list = baseConnection.hydrateList.call(this, listData, set);
 
-      if(this._getHydrateListCallbacks[id]) {
+      if (this._getHydrateListCallbacks[id]) {
         this._getHydrateListCallbacks[id].shift()(list);
-        if(!this._getHydrateListCallbacks[id].length){
+        if (!this._getHydrateListCallbacks[id].length){
           delete this._getHydrateListCallbacks[id];
         }
       }
@@ -20,12 +20,11 @@ module.exports = connect.behavior("data-ndjson", function(baseConnection) {
     _getHydrateListCallbacks: {},
     _getHydrateList: function(set, callback){
       var id = sortedSetJSON(set);
-      if(!this._getHydrateListCallbacks[id]) {
-        this._getHydrateListCallbacks[id]= [];
+      if (!this._getHydrateListCallbacks[id]) {
+        this._getHydrateListCallbacks[id] = [];
       }
       this._getHydrateListCallbacks[id].push(callback);
     },
-
     getListData: function(set) {
       var fetchPromise = fetch(this.ndjson);
       this._getHydrateList(set, function(list) {
