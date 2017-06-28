@@ -1,19 +1,23 @@
 @module {connect.Behavior} can-connect-ndjson
-@parent ecosystem
+@parent can-ecosystem
 @package ../package.json
 
 @description Connect to a NDJSON stream service.
 
 @signature `ndjsonStream( baseConnection )`
 
-Overwrites the [can-connect/connection.getListData] and [can-connect/constructor.hydrateList] methods on the `can-connect` base connection to enable NDJSON streaming.
+Overwrites the [can-connect/connection.getListData] and [can-connect/constructor.hydrateList] methods on the 
+[can-connect `can-connect`] base connection to enable NDJSON streaming.
 
-    @param {String} NDJSON service endpoint
+@param {String} NDJSON service endpoint
+
 
 @body
 ## Use
 
-In this example, we will connect a `DefineMap` model to an NDJSON stream service. If you prefer to use your own model library or a simple constructor, skip step 1 and modify the behaviors in step 2 to suit your data structure.
+In this example, we will connect a [can-define/map/map `DefineMap`] model to an NDJSON stream service. If you 
+prefer to use your own model library or a simple constructor, skip step 1 and [can-connect#Otheruse modify the behaviors] 
+in step 2 to suit your data structure.
 
 Follow these steps to get started:
 #### 1. Define your `Todo` model. 
@@ -28,7 +32,9 @@ Todo.List = DefineList.extend({"#": Todo});
 ```
 
 #### 2. Define the required behaviors.
-These four behaviors are the minumum required behaviors if you choose to use `DefineMap`s and `DefineList`s for your model layer. `Can-connect` is flexible and can be used with any array-like constructor.//TODO CHECK THIS
+These four behaviors are the minumum required behaviors if you choose to use [can-define/map/map `DefineMap`]s and 
+[can-define/list/list `DefineList`]s for your model layer. `can-connect` is flexible and can be used with any 
+array-like type.
 
 ```js
 const ndjsonStream = require("can-connect-ndjson");
@@ -57,7 +63,7 @@ Todo.connection = connect(behaviors, {
 ```
 
 #### 4. Use your `can-connect` methods on your model.
-`getList` noq supports a [`ReadableStream`](https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream) response object, which will be pushed into the list instance as JavaScript objects. Each item in the list represents one line of your NDJSON data.
+`getList` now supports a [`ReadableStream`](https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream) response object, which will be pushed into the list instance as JavaScript objects. Each item in the list represents one line of your NDJSON data.
 
 ```js
 let todoItemPromise = Todo.getList({}); //GET request returns a promise that resolves to one line of your NDJSON stream at a time.
@@ -111,7 +117,7 @@ let todoItemPromise = Todo.getList({}); //GET request returns a promise that res
 Learn about using the [`fetch API`](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) with NDJSON and `ReadableStreams` [here]().
 
 ## Parsing a stream of NDJSON to a stream of JS Objects
-Learn about how we parse the NDJSON stream into a ReadableStream of JS objects using the `can-ndjson-stream` module [here](./can-ndjson-stream.html).
+Learn about how we parse the NDJSON stream into a ReadableStream of JS objects using [can-ndjson-stream `can-ndjson-stream`].
 
 ## Creating an NDJSON service using Express
-Checkout the [this tutorial]() or the [can-ndjson-stream](./can-ndjson-stream.html#CreatinganNDJSONstreamservicewithNodeJS_) module documentation.
+Checkout the [this tutorial]() or the [can-ndjson-stream#CreatinganNDJSONstreamservicewithNodeJS_ `can-ndjson-stream`] module documentation.
