@@ -4,10 +4,10 @@ var ndJSONStream = require("can-ndjson-stream");
 
 module.exports = connect.behavior("data-ndjson", function(baseConnection) {
   return {
-    hydrateList: function(listData, set){
+    hydrateList: function(listData, set) {
       set = set || this.listSet(listData);
-      var id = sortedSetJSON( set );
-      var list = baseConnection.hydrateList.call(this, listData, set);
+      var id = sortedSetJSON(set);
+      var list = baseConnection.hydrateList.call(this, listData, set);//instance of list constructor
 
       if (this._getHydrateListCallbacks[id]) {
         this._getHydrateListCallbacks[id].shift()(list);
@@ -18,7 +18,7 @@ module.exports = connect.behavior("data-ndjson", function(baseConnection) {
       return list;
     },
     _getHydrateListCallbacks: {},
-    _getHydrateList: function(set, callback){
+    _getHydrateList: function(set, callback) {
       var id = sortedSetJSON(set);
       if (!this._getHydrateListCallbacks[id]) {
         this._getHydrateListCallbacks[id] = [];
@@ -26,11 +26,11 @@ module.exports = connect.behavior("data-ndjson", function(baseConnection) {
       this._getHydrateListCallbacks[id].push(callback);
     },
     getListData: function(set) {
-      var fetchPromise = fetch(this.ndjson);
+      var fetchPromise = fetch(this.ndjson || this.url);
       this._getHydrateList(set, function(list) {
         function streamerr(e) {
           list.set("isStreaming", false);
-          list.set("streamError",e);
+          list.set("streamError", e);
         }
 
         fetchPromise.then(function(response) {
