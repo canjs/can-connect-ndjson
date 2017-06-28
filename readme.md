@@ -1,57 +1,31 @@
 # can-connect-ndjson
 
+<!--[![Greenkeeper badge](https://badges.greenkeeper.io/canjs/can-connect-ndjson.svg)](https://greenkeeper.io/)
+
 [![Build Status](https://travis-ci.org/canjs/can-connect-ndjson.png?branch=master)](https://travis-ci.org/canjs/can-connect-ndjson)
 
+[![Build Status](https://saucelabs.com/browser-matrix/can-connect-ndjson.svg)](https://saucelabs.com/beta/builds/270fe2884b8940f68684fae62c89c39e)-->
 
+`Can-connect-ndjson` is a [`can-connect`]() behavior that enables `can-connect` to consume NDJSON stream services.
 
-## Usage
+## Demo
 
-### ES6 use
+All the demo code can be found in the `demo/` directory. 
 
-With StealJS, you can import this module directly in a template that is autorendered:
+1. To get started install dependencies and run the demo server.
 
-```js
-import plugin from 'can-connect-ndjson';
+```shell
+$ cd demo/
+$ npm install
+$ node server.js
 ```
 
-### CommonJS use
+2. Navigate to localhost:8080/demo/can-connect-ndjson.html to see the demo in action.
 
-Use `require` to load `can-connect-ndjson` and everything else
-needed to create a template that uses `can-connect-ndjson`:
+3. Check out the demo code in `demo/can-connect-ndjson.html`.
 
-```js
-var plugin = require("can-connect-ndjson");
-```
+![ndjsonStream Visual](ndjsonStream.gif)
 
-## AMD use
-
-Configure the `can` and `jquery` paths and the `can-connect-ndjson` package:
-
-```html
-<script src="require.js"></script>
-<script>
-	require.config({
-	    paths: {
-	        "jquery": "node_modules/jquery/dist/jquery",
-	        "can": "node_modules/canjs/dist/amd/can"
-	    },
-	    packages: [{
-		    	name: 'can-connect-ndjson',
-		    	location: 'node_modules/can-connect-ndjson/dist/amd',
-		    	main: 'lib/can-connect-ndjson'
-	    }]
-	});
-	require(["main-amd"], function(){});
-</script>
-```
-
-### Standalone use
-
-Load the `global` version of the plugin:
-
-```html
-<script src='./node_modules/can-connect-ndjson/dist/global/can-connect-ndjson.js'></script>
-```
 
 ## Contributing
 
@@ -67,7 +41,7 @@ node build
 ### Running the tests
 
 Tests can run in the browser by opening a webserver and visiting the `test.html` page.
-Automated tests that run the tests from the command line in Firefox can be run with
+Automated tests that run the tests from the command line in Chrome can be run with
 
 ```
 npm test
