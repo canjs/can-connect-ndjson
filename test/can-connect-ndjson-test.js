@@ -8,15 +8,25 @@ var DefineMap = require("can-define/map/map");
 
 var originalFetch = window.fetch;
 
-// Start test!
+// Skip all tests in browsers that do not support ReadableStream
+// https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream
+var isReadStreamSupported = true;
+try {
+  new ReadableStream();
+} catch(err) {
+  isReadStreamSupported = false;
+}
+
+var conditionalTest = isReadStreamSupported ? QUnit.test : QUnit.skip;
+var conditionalAsyncTest = isReadStreamSupported ? QUnit.asyncTest : QUnit.skip;
 
 QUnit.module('can-connect-ndjson');
 
-QUnit.test('Initialized the plugin', function(assert){
+conditionalTest('Initialized the plugin', function(assert){
   assert.equal(typeof plugin, 'function');
 });
 
-QUnit.test('Replace fetch with custom version', function(assert) {
+conditionalTest('Replace fetch with custom version', function(assert) {
   window.fetch = function(url) {
     if (url == "test") {
       return "success";
@@ -41,7 +51,7 @@ QUnit.test('Replace fetch with custom version', function(assert) {
   assert.ok(fetch("test")=='success', "Fetch replaced.");
 });
 
-QUnit.asyncTest('Reading a multiline NDJSON', function(assert) {
+conditionalAsyncTest('Reading a multiline NDJSON', function(assert) {
   var Todo = DefineMap.extend("Todo",{
     id: "number",
     name: "string"
