@@ -1,10 +1,10 @@
 # can-connect-ndjson
 
-<!--[![Greenkeeper badge](https://badges.greenkeeper.io/canjs/can-connect-ndjson.svg)](https://greenkeeper.io/)
+[![Greenkeeper badge](https://badges.greenkeeper.io/canjs/can-connect-ndjson.svg)](https://greenkeeper.io/)
 
 [![Build Status](https://travis-ci.org/canjs/can-connect-ndjson.png?branch=master)](https://travis-ci.org/canjs/can-connect-ndjson)
 
-[![Build Status](https://saucelabs.com/browser-matrix/can-connect-ndjson.svg)](https://saucelabs.com/beta/builds/270fe2884b8940f68684fae62c89c39e)-->
+[![Build Status](https://saucelabs.com/browser-matrix/can-connect-ndjson.svg)](https://saucelabs.com/beta/builds/04de5977a9784f0ebb38d9427166b387)
 
 `Can-connect-ndjson` is a [`can-connect`]() behavior that enables `can-connect` to consume NDJSON stream services.
 
