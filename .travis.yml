@@ -2,7 +2,9 @@ sudo: false
 dist: trusty
 language: node_js
 node_js: node
+sudo: required
 before_install:
+  - sudo apt-get clean
   - sudo apt-get update
 addons:
   apt:
