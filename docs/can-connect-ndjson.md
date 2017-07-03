@@ -1,15 +1,17 @@
 @module {connect.Behavior} can-connect-ndjson
-@parent can-ecosystem @package ../package.json @description Connect to a NDJSON stream service.
+@parent can-ecosystem
+@package ../package.json
+@group can-connect-ndjson/options options
+@group can-connect-ndjson/DefineList DefineList methods
+
+@description Get a list of data from an NDJSON service endpoint.
 
 @signature `ndjsonStream( baseConnection )`
 
 Overwrites the [can-connect/connection.getListData] and
-[can-connect/constructor.hydrateList] methods on the [can-connect
-`can-connect`] base connection to enable NDJSON streaming using
+[can-connect/constructor.hydrateList] methods on the [can-connect] base connection to enable [NDJSON](http://www.ndjson.org/) streaming using
 [`Fetch`](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) with
 [`ReadableStream`](https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream)s.
-
-@param {String} NDJSON service endpoint
 
 @body
 ## Use
@@ -27,14 +29,14 @@ const DefineList = require("can-define/list/list");
 const DefineMap = require("can-define/map/map");
 
 // Define model
-const Todo = DefineMap.extend("Todo", {id: "number", name: "string"}); 
+const Todo = DefineMap.extend("Todo", {id: "number", name: "string"});
 Todo.List = DefineList.extend("TodoList", {"#": Todo});
 ```
 
-#### 2. Include the required behaviors. 
+#### 2. Include the required behaviors.
 These four behaviors are the minumum required behaviors if you choose to use
-[can-define/map/map `DefineMap`]s and [can-define/list/list `DefineList`]s for 
-the model layer. `can-connect` is flexible and can be used with any array-like 
+[can-define/map/map `DefineMap`]s and [can-define/list/list `DefineList`]s for
+the model layer. `can-connect` is flexible and can be used with any array-like
 type.
 
 ```js
@@ -48,10 +50,10 @@ const behaviors = [
 ];
 ```
 
-#### 3.Create `can-connect` connection. 
-Link `can-connect` to the model by attaching a connection object. The connection 
-object is created by calling `connect` with the behaviors and options. You may 
-need to pass an NDJSON-specific endpoint option if the backend serves NDJSON 
+#### 3.Create `can-connect` connection.
+Link `can-connect` to the model by attaching a connection object. The connection
+object is created by calling `connect` with the behaviors and options. You may
+need to pass an NDJSON-specific endpoint option if the backend serves NDJSON
 from a different URL.
 
 ```js
@@ -65,7 +67,7 @@ Todo.connection = connect(behaviors, {
 });
 ```
 
-#### 4. Use the `can-connect` methods on the model. 
+#### 4. Use the `can-connect` methods on the model.
 `getList` now uses a [`ReadableStream`](https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream)
 response behind the scenes. NDJSON lines read from the stream will be pushed
 into the list instance as JavaScript objects.
@@ -79,7 +81,7 @@ starts. At that time the list is usually empty since the response has just
 begun. Afterwards, as JSON lines are streamed from the response, instances are
 created from each line and added to the list, one at a time.
 
-If using the raw data below, each `Todo` instance in the list will contain the 
+If using the raw data below, each `Todo` instance in the list will contain the
 properties from a line, eg. `{"name":"first", "id": 1}`
 
 ```js
@@ -90,7 +92,7 @@ properties from a line, eg. `{"name":"first", "id": 1}`
 {"name":"fourth", "id": 4}\n
 ```
 
-#### 5. Use the model with a template. 
+#### 5. Use the model with a template.
 Use `can-stache` or your favorite live-binding template language to attach your
 data to the DOM.
 
@@ -128,7 +130,7 @@ const stache = require("can-stache");
 const template = stache("<ul>{{#each todos}}<li>{{name}}</li>{{/each}}</ul>");
 
 // Define model
-const Todo = DefineMap.extend("Todo", {id: "number", name: "string"}); 
+const Todo = DefineMap.extend("Todo", {id: "number", name: "string"});
 Todo.List = DefineList.extend("TodoList", {"#": Todo});
 
 //Define required behaviors, including can-connect-ndjson
@@ -154,13 +156,13 @@ todoListPromise.then(function(list) {
 });
 ```
 
-## Using `fetch` with NDJSON and `ReadableStreams` 
-Learn more about using the [`fetch API`](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) 
+## Using `fetch` with NDJSON and `ReadableStreams`
+Learn more about using the [`fetch API`](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)
 with NDJSON and `ReadableStreams` [here]().
 
-## Parsing a stream of NDJSON to a stream of JS Objects 
+## Parsing a stream of NDJSON to a stream of JS Objects
 Learn about how we parse the NDJSON stream into a ReadableStream of JS objects using [can-ndjson-stream `can-ndjson-stream`].
 
-## Creating an NDJSON service using Express 
-Checkout [this tutorial]() or the [can-ndjson-stream#CreatinganNDJSONstreamservicewithNodeJS_ `can-ndjson-stream`] 
+## Creating an NDJSON service using Express
+Checkout [this tutorial]() or the [can-ndjson-stream#CreatinganNDJSONstreamservicewithNodeJS_ `can-ndjson-stream`]
 module documentation.
