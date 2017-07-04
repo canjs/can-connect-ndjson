@@ -1,6 +1,7 @@
 var connect = require("can-connect");
 var sortedSetJSON = require("can-connect/helpers/sorted-set-json");
 var ndJSONStream = require("can-ndjson-stream");
+var canReflect = require("can-reflect");
 
 module.exports = connect.behavior("data-ndjson", function(baseConnection) {
   return {
@@ -29,18 +30,18 @@ module.exports = connect.behavior("data-ndjson", function(baseConnection) {
       var fetchPromise = fetch(this.ndjson || this.url);
       this._getHydrateList(set, function(list) {
         function streamerr(e) {
-          list.set("isStreaming", false);
-          list.set("streamError", e);
+          canReflect.setKeyValue(list,"isStreaming", false);
+          canReflect.setKeyValue(list,"streamError", e);
         }
 
         fetchPromise.then(function(response) {
-          list.set("isStreaming", true);
+          canReflect.setKeyValue(list,"isStreaming", true);
           return ndJSONStream(response.body);
         }).then(function(itemStream) {
           var reader = itemStream.getReader();
           reader.read().then(function read(result) {
             if (result.done) {
-              list.set("isStreaming", false);
+              canReflect.setKeyValue(list,"isStreaming", false);
               return;
             }
             list.push(result.value);
