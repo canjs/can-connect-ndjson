@@ -44,6 +44,7 @@
   "dependencies": {
     "can-connect": "^1.3.6",
     "can-define": "^1.0.16",
+    "can-namespace": "^1.0.0",
     "can-ndjson-stream": "^0.1.0",
     "can-reflect": "^1.2.2",
     "can-util": "^3.3.0",

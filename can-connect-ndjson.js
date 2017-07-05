@@ -1,10 +1,12 @@
-/*global ReadableStream*/
+/* global ReadableStream */
+/* exported connectNdjson */
 var connect = require("can-connect");
 var sortedSetJSON = require("can-connect/helpers/sorted-set-json");
 var ndJSONStream = require("can-ndjson-stream");
 var canReflect = require("can-reflect");
+var namespace = require('can-namespace');
 
-module.exports = connect.behavior("data-ndjson", function(baseConnection) {
+var connectNdjson = connect.behavior("data-ndjson", function(baseConnection) {
   //Feature detection and fallback if ReadableStream and fetch are not supported
   try {
     new ReadableStream();
@@ -66,3 +68,5 @@ module.exports = connect.behavior("data-ndjson", function(baseConnection) {
     }
   };
 });
+
+module.exports = namespace.connectNdjson = connectNdjson;
