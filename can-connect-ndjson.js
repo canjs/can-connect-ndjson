@@ -4,6 +4,13 @@ var ndJSONStream = require("can-ndjson-stream");
 var canReflect = require("can-reflect");
 
 module.exports = connect.behavior("data-ndjson", function(baseConnection) {
+  //Feature detection and fallback if ReadableStream and fetch are not supported
+  try {
+    new ReadableStream();
+    window.fetch();
+  } catch (err) {
+    return {};
+  }
   return {
     hydrateList: function(listData, set) {
       set = set || this.listSet(listData);
@@ -27,6 +34,12 @@ module.exports = connect.behavior("data-ndjson", function(baseConnection) {
       this._getHydrateListCallbacks[id].push(callback);
     },
     getListData: function(set) {
+      try {
+        new ReadableStream();
+        window.fetch();
+      } catch (err){
+        return {};
+      }
       var fetchPromise = fetch(this.ndjson || this.url);
       this._getHydrateList(set, function(list) {
         function streamerr(e) {

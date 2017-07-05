@@ -6,7 +6,7 @@ var app = express();
 
 app.use(express.static(__dirname + '/..'));
 
-app.get('/api', function(req, res) {
+app.get('/api/ndjson', function(req, res) {
   var chunks = [];
   var readStream = fs.createReadStream(__dirname + '/todos.ndjson').pipe(ndjson.parse());
 
@@ -25,6 +25,15 @@ app.get('/api', function(req, res) {
         res.end();
       }
     }, 500);
+  });
+  
+});
+
+app.get('/api', function(req, res) {
+  fs.readFile(__dirname + '/todos.json', "utf8", function(err, data){
+    if(err) throw err;
+    console.log(data.length, '###########')
+    res.send(data);
   });
   
 });
