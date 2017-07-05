@@ -54,9 +54,6 @@
   },
   "devDependencies": {
     "can-stache": "^3.0.19",
-    "done-serve": "^1.0.0-alpha.0",
-    "donejs-cli": "^1.0.0-alpha.2",
-    "generator-donejs": "^1.0.0-alpha.0",
     "http-server": "^0.10.0",
     "jshint": "^2.9.5",
     "saucelabs": "^1.4.0",
