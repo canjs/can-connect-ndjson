@@ -11,7 +11,7 @@
 Overwrites the [can-connect/connection.getListData] and
 [can-connect/constructor.hydrateList] methods on the [can-connect] base connection to enable [NDJSON](http://www.ndjson.org/) streaming using
 [`Fetch`](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) with
-[`ReadableStream`](https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream)s.
+[`ReadableStream`](https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream)s. Falls back to default `baseConnection` in browsers that do not support `Fetch` and `ReadableStream`.
 
 @body
 ## Use
@@ -101,7 +101,7 @@ const stache = require("can-stache");
 
 const template = stache("<ul>{{#each todos}}<li>{{name}}</li>{{/each}}</ul>");
 
-todoListPromise.then(function(list) {
+todoListPromise.then(list => {
     document.body.append(template({todos: list});
 });
 ```
@@ -151,10 +151,16 @@ Todo.connection = connect(behaviors, {
 
 let todoListPromise = Todo.getList({});
 
-todoListPromise.then(function(list) {
+todoListPromise.then(list => {
     document.body.append(template({todos: list});
 });
 ```
+## Fallback for browsers without `fetch` and `stream` support
+In browsers that don't support `fetch` and `streams`, this module will fall back to the `baseConnection` configuration. The `baseConnection` and will do a `GET` request to the `url` endpoint and expects to receive JSON data. 
+
+Note: the stream state properties such as `streamError` or `isStreaming` are not available when falling back.
+
+Try out [the demo](https://github.com/canjs/can-connect-ndjson) to see how to works.
 
 ## Using `fetch` with NDJSON and `ReadableStreams`
 Learn more about using the [`fetch API`](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)

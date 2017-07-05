@@ -6,7 +6,7 @@
 
 [![Build Status](https://saucelabs.com/browser-matrix/can-connect-ndjson.svg)](https://saucelabs.com/beta/builds/04de5977a9784f0ebb38d9427166b387)
 
-`Can-connect-ndjson` is a [`can-connect`]() behavior that enables `can-connect` to consume NDJSON stream services.
+`Can-connect-ndjson` is a [`can-connect`]() behavior that enables `can-connect` to consume NDJSON stream services. Falls back to `baseConnection` configuration in browsers that do not support `Fetch` or `ReadableStreams`.
 
 ## Demo
 
@@ -20,7 +20,7 @@ $ npm install
 $ node server.js
 ```
 
-2. Navigate to localhost:8080/demo/can-connect-ndjson.html to see the demo in action.
+2. Navigate to localhost:8080/demo/can-connect-ndjson.html to see the demo in action. If you open the demo in a browser that does not support `Fetch` or `ReadableStreams`, it will fall back to the `baseConnection` configuration which consumes JSON data.
 
 3. Check out the demo code in `demo/can-connect-ndjson.html`.
 

@@ -1,3 +1,4 @@
+/*global ReadableStream*/
 var connect = require("can-connect");
 var sortedSetJSON = require("can-connect/helpers/sorted-set-json");
 var ndJSONStream = require("can-ndjson-stream");
@@ -34,12 +35,6 @@ module.exports = connect.behavior("data-ndjson", function(baseConnection) {
       this._getHydrateListCallbacks[id].push(callback);
     },
     getListData: function(set) {
-      try {
-        new ReadableStream();
-        window.fetch();
-      } catch (err){
-        return {};
-      }
       var fetchPromise = fetch(this.ndjson || this.url);
       this._getHydrateList(set, function(list) {
         function streamerr(e) {
