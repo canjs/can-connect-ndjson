@@ -1,48 +1,28 @@
 # can-connect-ndjson
 
+[![Join the chat at https://gitter.im/canjs/canjs](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/canjs/canjs?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/canjs/can-connect-ndjson/blob/master/license.md)
+[![npm version](https://badge.fury.io/js/can-connect-ndjson.svg)](https://www.npmjs.com/package/can-connect-ndjson)
+[![Travis build status](https://travis-ci.org/canjs/can-connect-ndjson.svg?branch=master)](https://travis-ci.org/canjs/can-connect-ndjson)
+[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/canjs/can-connect-ndjson?branch=master&svg=true)](https://ci.appveyor.com/project/matthewp/can-connect-ndjson)
+[![Coverage status](https://coveralls.io/repos/github/canjs/can-connect-ndjson/badge.svg?branch=master)](https://coveralls.io/github/canjs/can-connect-ndjson?branch=master)
 [![Greenkeeper badge](https://badges.greenkeeper.io/canjs/can-connect-ndjson.svg)](https://greenkeeper.io/)
-
-[![Build Status](https://travis-ci.org/canjs/can-connect-ndjson.png?branch=master)](https://travis-ci.org/canjs/can-connect-ndjson)
-
-[![Build Status](https://saucelabs.com/browser-matrix/can-connect-ndjson.svg)](https://saucelabs.com/beta/builds/04de5977a9784f0ebb38d9427166b387)
-
-`Can-connect-ndjson` is a [`can-connect`]() behavior that enables `can-connect` to consume NDJSON stream services. Falls back to `baseConnection` configuration in browsers that do not support `Fetch` or `ReadableStreams`.
-
-## Demo
 
 All the demo code can be found in the `demo/` directory. 
 
-1. To get started install dependencies and run the demo server.
+## Documentation
 
-```shell
-$ cd demo/
-$ npm install
-$ node server.js
-```
+Read the [can-connect-ndjson API docs on CanJS.com](https://canjs.com/doc/can-connect-ndjson.html).
 
-2. Navigate to localhost:8080/demo/can-connect-ndjson.html to see the demo in action. If you open the demo in a browser that does not support `Fetch` or `ReadableStreams`, it will fall back to the `baseConnection` configuration which consumes JSON data.
+## Changelog
 
-3. Check out the demo code in `demo/can-connect-ndjson.html`.
-
-![ndjsonStream Visual](ndjsonStream.gif)
-
+See the [latest releases on GitHub](https://github.com/canjs/can-connect-ndjson/releases).
 
 ## Contributing
 
-### Making a Build
+The [contribution guide](https://github.com/canjs/can-connect-ndjson/blob/master/CONTRIBUTING.md) has information on getting help, reporting bugs, developing locally, and more.
 
-To make a build of the distributables into `dist/` in the cloned repository run
+## License
 
-```
-npm install
-node build
-```
+[MIT](https://github.com/canjs/can-connect-ndjson/blob/master/license.md)
 
-### Running the tests
-
-Tests can run in the browser by opening a webserver and visiting the `test.html` page.
-Automated tests that run the tests from the command line in Chrome can be run with
-
-```
-npm test
-```
