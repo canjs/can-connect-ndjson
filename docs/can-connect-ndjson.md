@@ -1,5 +1,6 @@
 @module {connect.Behavior} can-connect-ndjson
-@parent can-ecosystem
+@parent can-data-modeling
+@collection can-ecosystem
 @package ../package.json
 @group can-connect-ndjson/options options
 @group can-connect-ndjson/DefineList DefineList methods
