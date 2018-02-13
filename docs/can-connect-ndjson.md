@@ -85,7 +85,7 @@ created from each line and added to the list, one at a time.
 If using the raw data below, each `Todo` instance in the list will contain the
 properties from a line, eg. `{"name":"first", "id": 1}`
 
-```js
+```
 //NDJSON raw data example
 {"name":"first", "id": 1}\n
 {"name":"second", "id": 2}\n
@@ -103,7 +103,7 @@ const stache = require("can-stache");
 const template = stache("<ul>{{#each todos}}<li>{{name}}</li>{{/each}}</ul>");
 
 todoListPromise.then(list => {
-    document.body.append(template({todos: list});
+    document.body.append(template({todos: list}));
 });
 ```
 
@@ -153,11 +153,11 @@ Todo.connection = connect(behaviors, {
 let todoListPromise = Todo.getList({});
 
 todoListPromise.then(list => {
-    document.body.append(template({todos: list});
+    document.body.append(template({todos: list}));
 });
 ```
 ## Fallback for browsers without `fetch` and `stream` support
-In browsers that don't support `fetch` and `streams`, this module will fall back to the `baseConnection` configuration. The `baseConnection` and will do a `GET` request to the `url` endpoint and expects to receive JSON data. 
+In browsers that don't support `fetch` and `streams`, this module will fall back to the `baseConnection` configuration. The `baseConnection` and will do a `GET` request to the `url` endpoint and expects to receive JSON data.
 
 Note: the stream state properties such as `streamError` or `isStreaming` are not available when falling back.
 
