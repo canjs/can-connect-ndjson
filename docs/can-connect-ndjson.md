@@ -26,12 +26,12 @@ Follow these steps to get started:
 #### 1. Define a model.
 
 ```js
-const DefineList = require("can-define/list/list");
-const DefineMap = require("can-define/map/map");
+import DefineList from "can-define/list/list";
+import DefineMap from "can-define/map/map";
 
 // Define model
-const Todo = DefineMap.extend("Todo", {id: "number", name: "string"});
-Todo.List = DefineList.extend("TodoList", {"#": Todo});
+const Todo = DefineMap.extend( "Todo", { id: "number", name: "string" } );
+Todo.List = DefineList.extend( "TodoList", { "#": Todo } );
 ```
 
 #### 2. Include the required behaviors.
@@ -44,10 +44,10 @@ type.
 
 //Define required behaviors, including can-connect-ndjson
 const behaviors = [
-    require("can-connect/data/url/url"),
-    require("can-connect/constructor/constructor"),
-    require("can-connect/can/map/map"),
-    require("can-connect-ndjson") //require NDJSON behavior
+	require( "can-connect/data/url/url" ),
+	require( "can-connect/constructor/constructor" ),
+	require( "can-connect/can/map/map" ),
+	require( "can-connect-ndjson" ) //require NDJSON behavior
 ];
 ```
 
@@ -58,14 +58,15 @@ need to pass an NDJSON-specific endpoint option if the backend serves NDJSON
 from a different URL.
 
 ```js
-const connect = require("can-connect");
+import connect from "can-connect";
+
 // Create connection and pass the optional NDJSON API endpoint
-Todo.connection = connect(behaviors, {
-    Map: Todo,
-    List: Todo.List,
-    url: "/other/endpoint",
-    ndjson: "/api" //declare the NDJSON API endpoint here
-});
+Todo.connection = connect( behaviors, {
+	Map: Todo,
+	List: Todo.List,
+	url: "/other/endpoint",
+	ndjson: "/api" //declare the NDJSON API endpoint here
+} );
 ```
 
 #### 4. Use the `can-connect` methods on the model.
@@ -74,7 +75,7 @@ response behind the scenes. NDJSON lines read from the stream will be pushed
 into the list instance as JavaScript objects.
 
 ```js
-let todoListPromise = Todo.getList({});
+let todoListPromise = Todo.getList( {} );
 ```
 
 The `todoListPromise` will return the list as soon as the streaming response
@@ -85,7 +86,7 @@ created from each line and added to the list, one at a time.
 If using the raw data below, each `Todo` instance in the list will contain the
 properties from a line, eg. `{"name":"first", "id": 1}`
 
-```js
+```
 //NDJSON raw data example
 {"name":"first", "id": 1}\n
 {"name":"second", "id": 2}\n
@@ -98,13 +99,13 @@ Use `can-stache` or your favorite live-binding template language to attach your
 data to the DOM.
 
 ```js
-const stache = require("can-stache");
+import stache from "can-stache";
 
-const template = stache("<ul>{{#each todos}}<li>{{name}}</li>{{/each}}</ul>");
+const template = stache( "<ul>{{#each todos}}<li>{{name}}</li>{{/each}}</ul>" );
 
-todoListPromise.then(list => {
-    document.body.append(template({todos: list});
-});
+todoListPromise.then( list => {
+	document.body.append( template( { todos: list } ) );
+} );
 ```
 
 Though the list is initially empty, the template will update with new `li` elements
@@ -122,42 +123,42 @@ a stream of NDJSON, which it will parse into an array of JS objects.
   will default to the `url`.
 
 ```js
-const connect = require("can-connect");
-const DefineList = require("can-define/list/list");
-const DefineMap = require("can-define/map/map");
-const stache = require("can-stache");
+import connect from "can-connect";
+import DefineList from "can-define/list/list";
+import DefineMap from "can-define/map/map";
+import stache from "can-stache";
 
 //Define template
-const template = stache("<ul>{{#each todos}}<li>{{name}}</li>{{/each}}</ul>");
+const template = stache( "<ul>{{#each todos}}<li>{{name}}</li>{{/each}}</ul>" );
 
 // Define model
-const Todo = DefineMap.extend("Todo", {id: "number", name: "string"});
-Todo.List = DefineList.extend("TodoList", {"#": Todo});
+const Todo = DefineMap.extend( "Todo", { id: "number", name: "string" } );
+Todo.List = DefineList.extend( "TodoList", { "#": Todo } );
 
 //Define required behaviors, including can-connect-ndjson
 const behaviors = [
-    require("can-connect/data/url/url"),
-    require("can-connect/constructor/constructor"),
-    require("can-connect/can/map/map"),
-    require("can-connect-ndjson") //require NDJSON behavior
+	require( "can-connect/data/url/url" ),
+	require( "can-connect/constructor/constructor" ),
+	require( "can-connect/can/map/map" ),
+	require( "can-connect-ndjson" ) //require NDJSON behavior
 ];
 
 // Create connection and pass the NDJSON API endpoint
-Todo.connection = connect(behaviors, {
-    Map: Todo,
-    List: Todo.List,
-    url: "/other/endpoint",
-    ndjson: "/api" //declare the NDJSON API endpoint here
-});
+Todo.connection = connect( behaviors, {
+	Map: Todo,
+	List: Todo.List,
+	url: "/other/endpoint",
+	ndjson: "/api" //declare the NDJSON API endpoint here
+} );
 
-let todoListPromise = Todo.getList({});
+let todoListPromise = Todo.getList( {} );
 
-todoListPromise.then(list => {
-    document.body.append(template({todos: list});
-});
+todoListPromise.then( list => {
+	document.body.append( template( { todos: list } ) );
+} );
 ```
 ## Fallback for browsers without `fetch` and `stream` support
-In browsers that don't support `fetch` and `streams`, this module will fall back to the `baseConnection` configuration. The `baseConnection` and will do a `GET` request to the `url` endpoint and expects to receive JSON data. 
+In browsers that don't support `fetch` and `streams`, this module will fall back to the `baseConnection` configuration. The `baseConnection` and will do a `GET` request to the `url` endpoint and expects to receive JSON data.
 
 Note: the stream state properties such as `streamError` or `isStreaming` are not available when falling back.
 
