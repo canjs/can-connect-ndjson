@@ -32,12 +32,12 @@
   "keywords": [],
   "dependencies": {
     "can-connect": "^3.0.2",
-    "can-define": "^2.5.7",
     "can-namespace": "^1.0.0",
     "can-ndjson-stream": "^1.0.0",
     "can-reflect": "^1.17.4"
   },
   "devDependencies": {
+    "can-define": "^2.5.7",
     "can-stache": "^4.10.5",
     "detect-cyclic-packages": "^1.1.0",
     "http-server": "^0.10.0",
