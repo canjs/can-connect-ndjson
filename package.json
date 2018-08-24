@@ -25,7 +25,7 @@
     "build": "node build.js",
     "develop": "done-serve --static --develop --port 8080",
     "http-server": "http-server -p 3000 --silent",
-    "ci": "npm run build && npm run test && node ./test/test-sauce-labs.js",
+    "ci": "npm run build && node ./test/test-sauce-labs.js",
     "detect-cycle": "detect-cyclic-packages --ignore done-serve"
   },
   "main": "can-connect-ndjson.js",
