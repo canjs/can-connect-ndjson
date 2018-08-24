@@ -5,22 +5,17 @@ var testSauceLabs = require('test-saucelabs');
 // https://github.com/SeleniumHQ/selenium/wiki/DesiredCapabilities
 var platforms = [{
   browserName: 'chrome',
-  platform: 'OS X 10.11',
-  version: '58.0'
+  platform: 'OS X 10.12',
+  version: 'latest'
 },{
   browserName: 'chrome',
-  platform: 'OS X 10.9',
-  version: '54.0'
-},
-{
-  browserName: 'chrome',
   platform: 'Windows 10',
-  version: '59.0'
+  version: 'latest'
 },
 {
   browserName: 'chrome',
   platform: 'Windows 7',
-  version: '53.0'
+  version: 'latest'
 }];
 
 var url = 'http://localhost:3000/test/test.html';

@@ -10,7 +10,9 @@ var connectNdjson = connect.behavior("data-ndjson", function(baseConnection) {
   //Feature detection and fallback if ReadableStream and fetch are not supported
   try {
     new ReadableStream();
-    window.fetch();
+		if(typeof window.fetch !== "function") {
+			throw new Error("fetch not supported");
+		}
   } catch (err) {
     return {};
   }

@@ -5,8 +5,7 @@ var ReadableStream = window.ReadableStream;
 var connect = require("can-connect");
 var DefineList = require("can-define/list/list");
 var DefineMap = require("can-define/map/map");
-
-var originalFetch = window.fetch;
+var helpers = require("./helpers");
 
 // Skip all tests in browsers that do not support ReadableStream
 // https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream
@@ -20,35 +19,13 @@ try {
 var conditionalTest = isReadStreamSupported ? QUnit.test : QUnit.skip;
 var conditionalAsyncTest = isReadStreamSupported ? QUnit.asyncTest : QUnit.skip;
 
-QUnit.module('can-connect-ndjson');
-
-conditionalTest('Initialized the plugin', function(assert){
-  assert.equal(typeof plugin, 'function');
-});
-
-conditionalTest('Replace fetch with custom version', function(assert) {
-  window.fetch = function(url) {
-    if (url == "test") {
-      return "success";
-    }
-    return Promise.resolve().then(function() {
-      return {body:new ReadableStream({
-        start: function(controller) {
-          window.fetch_push = function(data) {
-            var encoder = new TextEncoder();
-            controller.enqueue(encoder.encode(data));
-          };
-          window.fetch_halt = function(reason) {
-            controller.error(reason);
-          };
-          window.fetch_close = function() {
-            controller.close();
-          };
-        }
-      })};
-    });
-  };
-  assert.ok(fetch("test")=='success', "Fetch replaced.");
+QUnit.module('can-connect-ndjson', {
+	beforeEach: function() {
+		this.releaseFetch = helpers.trapFetch();
+	},
+	afterEach: function() {
+		this.releaseFetch();
+	}
 });
 
 conditionalAsyncTest('Reading a multiline NDJSON', function(assert) {
@@ -112,5 +89,3 @@ conditionalAsyncTest('Reading a multiline NDJSON', function(assert) {
     }, 1000);
   });
 });
-
-window.fetch = originalFetch;
