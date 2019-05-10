@@ -75,7 +75,7 @@ conditionalAsyncTest('Reading a multiline NDJSON', function(assert) {
         setTimeout(function() {
           assert.notOk(oblist.isStreaming, "Status is not streaming");
         }, 500);
-        QUnit.start();
+        done();
       }
     };
     var onRemove = function() {
