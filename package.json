@@ -34,7 +34,7 @@
     "can-connect": "^3.0.6",
     "can-namespace": "^1.0.0",
     "can-ndjson-stream": "^1.0.0",
-    "can-reflect": "^1.17.4"
+    "can-reflect": "^1.17.10"
   },
   "devDependencies": {
     "can-define": "^2.5.7",
