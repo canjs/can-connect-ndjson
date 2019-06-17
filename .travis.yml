@@ -1,5 +1,5 @@
 sudo: false
-dist: trusty
+dist: xenial
 language: node_js
 node_js: node
 addons:
@@ -13,3 +13,5 @@ before_script:
   - npm run http-server &
   - sleep 3
 script: npm run ci
+services:
+  - xvfb
