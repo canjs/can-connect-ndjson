@@ -23,7 +23,7 @@
   "license": "ISC",
   "dependencies": {
     "can-connect": "^4.0.0",
-    "can-connect-ndjson": "^1.0.0",
+    "can-connect-ndjson": "^2.0.0",
     "can-define": "^2.7.12",
     "can-stache": "^4.17.12",
     "can-util": "^3.9.1",
