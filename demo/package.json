@@ -25,7 +25,7 @@
     "can-connect": "^4.0.0",
     "can-connect-ndjson": "^1.0.0",
     "can-define": "^2.7.12",
-    "can-stache": "^4.17.12",
+    "can-stache": "^5.1.1",
     "can-util": "^3.9.1",
     "express": "^4.15.3",
     "fs": "0.0.2",
