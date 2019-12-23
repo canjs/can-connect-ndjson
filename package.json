@@ -38,7 +38,7 @@
   },
   "devDependencies": {
     "can-define": "^2.5.7",
-    "can-stache": "^5.0.0",
+    "can-stache": "^5.1.0",
     "detect-cyclic-packages": "^1.1.0",
     "http-server": "^0.11.1",
     "jshint": "^2.9.5",
